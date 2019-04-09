@@ -6,6 +6,7 @@
 * Eleftheria Batsou: Visualize Data | Map Data Across the Globe - D3.js - FreeCodeCamp
     * [Youtube](https://www.youtube.com/watch?v=dJbpo8R47D0)
     * [GitHub](https://github.com/EleftheriaBatsou/Map-Data-Across-the-Globe)
+* [Time Slider](https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518)
 
 ## Data Sources
 * [world-50m.v1.json](https://d3js.org/world-50m.v1.json)
