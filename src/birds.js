@@ -19,17 +19,17 @@ svg.append('rect')
 
 let g = svg.append('g');
 
-// let projection = d3.geoEquirectangular()
-//     .scale(300)
-//     .center([-50, 30]);
 let projection = d3.geoEquirectangular()
-    .scale(16000)
-    .center([-74.5, 40.5]);
+    .scale(300)
+    .center([-50, 30]);
+// let projection = d3.geoEquirectangular()
+//     .scale(16000)
+//     .center([-74.5, 40.5]);
 let path = d3.geoPath().projection(projection);
 
 Promise.all([
     d3.json('data/maps/world-50m.v1.json'),
-    d3.csv('data/birds/irma.csv')
+    d3.csv('data/birds/leo.csv')
 ])
     .then((data, error) => {
         if (error) console.log(error);
@@ -39,7 +39,7 @@ Promise.all([
 
         // console.log(map);
 
-        // console.log(irma[0]);
+        console.log(irma[0]);
         // let position = [irma[0]['location-lat'], irma[0]['location-long']];
         // console.log(projection(position));
 
