@@ -27,6 +27,8 @@ let projection = d3.geoEquirectangular()
 //     .center([-74.5, 40.5]);
 let path = d3.geoPath().projection(projection);
 
+const colorScale = d3.scaleOrdinal(d3.schemeCategory10); //colorScale for the different birds
+
 Promise.all([
     d3.json('data/maps/world-50m.v1.json'),
     d3.csv('data/birds/allbirds.csv')
@@ -54,7 +56,7 @@ Promise.all([
             .attr('cx', d => getPosition(d)[0])
             .attr('cy', d => getPosition(d)[1])
             .attr('r', 3)
-            .style('fill', 'red');
+            .style("fill", d => colorScale(d["individual-local-identifier"]));
 
     });
 
