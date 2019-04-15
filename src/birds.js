@@ -29,17 +29,17 @@ let path = d3.geoPath().projection(projection);
 
 Promise.all([
     d3.json('data/maps/world-50m.v1.json'),
-    d3.csv('data/birds/leo.csv')
+    d3.csv('data/birds/allbirds.csv')
 ])
     .then((data, error) => {
         if (error) console.log(error);
 
         let map = data[0];
-        let irma = data[1];
+        let birds = data[1];
 
         // console.log(map);
 
-        console.log(irma[0]);
+        // console.log(birds[0]);
         // let position = [irma[0]['location-lat'], irma[0]['location-long']];
         // console.log(projection(position));
 
@@ -48,7 +48,7 @@ Promise.all([
             .attr('d', path);
 
         g.selectAll('circle')
-            .data(irma)
+            .data(birds)
             .enter()
             .append('circle')
             .attr('cx', d => getPosition(d)[0])
