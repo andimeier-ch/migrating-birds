@@ -1,72 +1,47 @@
-// document.querySelector('#map').textContent = 'Here comes the map';
-
-let svgWidth = 700;
-let svgHeight = 600;
-
-
-let map = d3.select('#map')
-    .append('svg')
-    .attr('width', svgWidth)
-    .attr('height', svgHeight);
-
-map.append('rect')
-    .attr('width', svgWidth)
-    .attr('height', svgHeight)
-    .style('stroke-width', 1)
-    .style('stroke', 'black')
-    .style('fill', 'white');
-
-
-let gMap = map.append('g');
-
-let projection = d3.geoEquirectangular()
-    .scale(300)
-    .center([-50, 30]);
-// let projection = d3.geoEquirectangular()
-//     .scale(16000)
-//     .center([-74.5, 40.5]);
-let path = d3.geoPath().projection(projection);
-
-
+// load bird data
 let birdSelect = document.querySelector('#bird-select');
+loadData(birdSelect.value);
+
 birdSelect.onchange = event => {
     loadData(birdSelect.value)
 };
 
-loadData(birdSelect.value);
+
+// create map
+const map = L.map('map')
+    .setView([40, -75], 3);
+
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+}).addTo(map);
+
+L.svg().addTo(map);
+
+
+
 
 function loadData(file) {
-    Promise.all([
-        d3.json('data/maps/world-50m.v1.json'),
-        d3.csv(`data/birds/${file}.csv`)
-    ])
-    .then((data, error) => {
-        if (error) console.log(error);
-
-        let map = data[0];
-        let bird = data[1];
-
-        drawMap(map);
-        let timeSlider = drawSlider(bird);
-        let currentDate = d3.timeFormat('%Y-%m-%d')(timeSlider.value());
-        drawBird(bird, currentDate);
-
-        timeSlider.on('onchange', val => {
-            let currentDate = d3.timeFormat('%Y-%m-%d')(val);
-            moveBird(bird, currentDate);
-        });
+    d3.csv(`data/birds/${file}.csv`)
+    .then(bird => {
+        let timeSlider = initSlider(bird);
 
         const playButton = document.querySelector('#play');
-        const player = BirdPlayer(playButton, bird, timeSlider);
-        // playButton.onclick = event => player.togglePlay(bird, timeSlider);
+        BirdPlayer(playButton, bird, timeSlider);
 
+        map.on('moveend', update);
     });
 }
 
-function drawMap(map) {
-    gMap.append('path')
-        .datum(topojson.feature(map, map.objects.countries))
-        .attr('d', path);
+function initSlider(bird) {
+    let timeSlider = drawSlider(bird);
+    let currentDate = d3.timeFormat('%Y-%m-%d')(timeSlider.value());
+    drawBird(bird, currentDate);
+
+    timeSlider.on('onchange', val => {
+        let currentDate = d3.timeFormat('%Y-%m-%d')(val);
+        moveBird(bird, currentDate);
+    });
+    return timeSlider;
 }
 
 function drawSlider(bird) {
@@ -95,15 +70,16 @@ function drawSlider(bird) {
 }
 
 function drawBird(bird, currentDate) {
-    gMap.selectAll('.bird-position').remove();
+    d3.selectAll('.bird-position').remove();
 
-    gMap.append('circle')
-        .datum(bird.find(b => b.timestamp === currentDate))
-        .attr('class', 'bird-position')
-        .attr('cx', d => getPosition(d)[0])
-        .attr('cy', d => getPosition(d)[1])
-        .attr('r', 3)
-        .style('fill', 'red');
+    d3.select('#map svg')
+        .append('circle')
+            .datum(bird.find(b => b.timestamp === currentDate))
+            .attr('class', 'bird-position')
+            .attr('cx', d => getPosition(d).x)
+            .attr('cy', d => getPosition(d).y)
+            .attr('r', 3)
+            .style('fill', 'red');
 }
 
 function moveBird(bird, currentDate) {
@@ -111,51 +87,25 @@ function moveBird(bird, currentDate) {
         .duration(100)
         .ease(d3.easeLinear);
 
-    gMap.select('.bird-position')
+    d3.select('.bird-position')
         .datum(bird.find(b => b.timestamp === currentDate))
         .transition(transition)
-        .attr('cx', d => getPosition(d)[0])
-        .attr('cy', d => getPosition(d)[1]);
+        .attr('cx', d => getPosition(d).x)
+        .attr('cy', d => getPosition(d).y);
+}
+
+function update() {
+    d3.selectAll('.bird-position')
+        .attr('cx', d => getPosition(d).x)
+        .attr('cy', d => getPosition(d).y);
 }
 
 function getPosition(d) {
-    let pos = [d['location-long'], d['location-lat']];
-    return projection(pos);
+    let pos = [d['location-lat'], d['location-long']];
+    return map.latLngToLayerPoint(pos);
 }
 
-// function togglePlay(bird, timeSlider, event) {
-//     isPlaying = !isPlaying;
-//
-//     if (isPlaying) {
-//         play(bird, timeSlider);
-//         event.target.textContent = 'Pause';
-//     } else {
-//         event.target.textContent = 'Play';
-//     }
-// }
-
-// function play(bird, timeSlider) {
-//     let start = null;
-//
-//     function step(timestamp) {
-//         if (!animationStart) {
-//             animationStart = timestamp;
-//         }
-//
-//         let progress = timestamp - animationStart;
-//         let i = Math.round(progress / 10);
-//         timeSlider.value(new Date(bird[i].timestamp));
-//
-//         if (i < bird.length - 1) {
-//             requestAnimationFrame(step);
-//         }
-//     }
-//
-//     requestAnimationFrame(step);
-// }
-
-
-const BirdPlayer = (button, bird, timeSlider) => {
+function BirdPlayer(button, bird, timeSlider) {
     let isPlaying = false;
     let animationStart = null;
 
@@ -185,6 +135,4 @@ const BirdPlayer = (button, bird, timeSlider) => {
             requestAnimationFrame(play);
         }
     };
-
-
-};
+}
