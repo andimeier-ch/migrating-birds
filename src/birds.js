@@ -1,5 +1,5 @@
 // load bird data
-let birdSelect = document.querySelector('#bird-select');
+let birdSelect = document.querySelector('input[name="bird-select"]:checked');
 loadData(birdSelect.value);
 
 birdSelect.onchange = event => {

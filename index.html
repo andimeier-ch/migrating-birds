@@ -18,15 +18,17 @@
 <div id="sliderTime"></div>
 <button id="play">Play</button>
 
-<label for="bird-select">Choose a bird: </label>
+<input type="radio" id="disney" name="bird-select" value="disney" checked>
+<label for="disney">Disney</label>
+<input type="radio" id="irma" name="bird-select" value="irma">
+<label for="irma">Irma</label>
+<input type="radio" id="leo" name="bird-select" value="leo">
+<label for="leo">Leo</label>
+<input type="radio" id="young-luro" name="bird-select" value="young-luro">
+<label for="young-luro">Young-Luro</label>
+<input type="radio" id="allbirds" name="bird-select" value="allbirds">
+<label for="allbirds">All Birds</label>
 
-<select name="bird-select" id="bird-select">
-  <option value="allbirds">  All Birds </option>
-  <option value="disney">    Disney    </option>
-  <option value="irma">      Irma      </option>
-  <option value="leo">       Leo       </option>
-  <option value="young-luro">Young Luro</option>
-</select>
 
 <script src="lib/d3/d3.min.js"></script>
 <script src="lib/d3-simple-slider/d3-simple-slider.min.js"></script>
