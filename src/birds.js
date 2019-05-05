@@ -35,11 +35,11 @@ function loadData(file) {
 function initSlider(bird) {
     let timeSlider = drawSlider(bird);
     let currentDate = d3.timeFormat('%Y-%m-%d')(timeSlider.value());
-    drawBird(bird, currentDate);
 
     timeSlider.on('onchange', val => {
         let currentDate = d3.timeFormat('%Y-%m-%d')(val);
-        moveBird(bird, currentDate);
+        drawBird(bird, currentDate);
+        //moveBird(bird, currentDate);
     });
     return timeSlider;
 }
@@ -72,14 +72,19 @@ function drawSlider(bird) {
 function drawBird(bird, currentDate) {
     d3.selectAll('.bird-position').remove();
 
-    d3.select('#map svg')
-        .append('circle')
-            .datum(bird.find(b => b.timestamp === currentDate))
+    bird.forEach(d => {
+        if(d.timestamp === currentDate){
+            d3.select('#map svg')
+            .datum(d)
+            .append('circle')
             .attr('class', 'bird-position')
-            .attr('cx', d => getPosition(d).x)
-            .attr('cy', d => getPosition(d).y)
+            .attr('cx', getPosition(d).x)
+            .attr('cy', getPosition(d).y)
             .attr('r', 3)
             .style('fill', 'red');
+        }
+    })
+    
 }
 
 function moveBird(bird, currentDate) {
