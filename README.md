@@ -1,7 +1,7 @@
 # Migrating Birds
 
-Student 1: Andreas Meier
-Student 2: My-Nhien Nguyen
+* Student 1: Andreas Meier
+* Student 2: My-Nhien Nguyen
 
 **Short description:**
  
