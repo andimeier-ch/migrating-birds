@@ -73,8 +73,8 @@ function drawBird(bird, currentDate) {
 
     bird.forEach(d => {
         if(d.timestamp === currentDate){
-            if(d3.select('#'+d['individual-local-identifier']).empty()){
-                d3.select('#map svg')
+            if(d3.select('#'+d['individual-local-identifier']).empty()){ //if bird is not shown on map yet
+                d3.select('#map svg')                                    //create a new circle
                 .datum(d)
                 .append('circle')
                 .attr('id', d['individual-local-identifier'])
@@ -84,14 +84,13 @@ function drawBird(bird, currentDate) {
                 .attr('r', 3)
                 .style('fill', 'red');
             }
-            else {
+            else {                                                      //otherwise just move the existing circle
                 const transition = d3.transition()
                 .duration(100)
                 .ease(d3.easeLinear);
-        
-            d3.select('#'+d['individual-local-identifier'])
+    
+                d3.select('#'+d['individual-local-identifier'])
                 .transition(transition)
-                .attr('fill', 'green')
                 .attr('cx', getPosition(d).x)
                 .attr('cy', getPosition(d).y);
             }
