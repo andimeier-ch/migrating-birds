@@ -39,7 +39,6 @@ function initSlider(bird) {
     timeSlider.on('onchange', val => {
         let currentDate = d3.timeFormat('%Y-%m-%d')(val);
         drawBird(bird, currentDate);
-        //moveBird(bird, currentDate);
     });
     return timeSlider;
 }
@@ -70,34 +69,37 @@ function drawSlider(bird) {
 }
 
 function drawBird(bird, currentDate) {
-    d3.selectAll('.bird-position').remove();
+    //d3.selectAll('.bird-position').remove();
 
     bird.forEach(d => {
         if(d.timestamp === currentDate){
-            d3.select('#map svg')
-            .datum(d)
-            .append('circle')
-            .attr('class', 'bird-position')
-            .attr('cx', getPosition(d).x)
-            .attr('cy', getPosition(d).y)
-            .attr('r', 3)
-            .style('fill', 'red');
+            if(d3.select('#'+d['individual-local-identifier']).empty()){
+                d3.select('#map svg')
+                .datum(d)
+                .append('circle')
+                .attr('id', d['individual-local-identifier'])
+                .attr('class', 'bird-position')
+                .attr('cx', getPosition(d).x)
+                .attr('cy', getPosition(d).y)
+                .attr('r', 3)
+                .style('fill', 'red');
+            }
+            else {
+                const transition = d3.transition()
+                .duration(100)
+                .ease(d3.easeLinear);
+        
+            d3.select('#'+d['individual-local-identifier'])
+                .transition(transition)
+                .attr('fill', 'green')
+                .attr('cx', getPosition(d).x)
+                .attr('cy', getPosition(d).y);
+            }
         }
     })
     
 }
 
-function moveBird(bird, currentDate) {
-    const transition = d3.transition()
-        .duration(100)
-        .ease(d3.easeLinear);
-
-    d3.select('.bird-position')
-        .datum(bird.find(b => b.timestamp === currentDate))
-        .transition(transition)
-        .attr('cx', d => getPosition(d).x)
-        .attr('cy', d => getPosition(d).y);
-}
 
 function update() {
     d3.selectAll('.bird-position')
