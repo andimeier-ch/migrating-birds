@@ -1,5 +1,24 @@
 # Migrating Birds
 
+Student 1: Andreas Meier
+Student 2: My-Nhien Nguyen
+
+**Short description:**
+ Visualisierung von GPS-Daten über einen Zeitraum von 13 Jahren von 55 Truthangeiern in Nord- und Südamerika.
+
+## Technical information
+**Main file path**: index.html
+
+**Any further comments like used frameworks, etc,**
+* Leaflet-Map as background
+
+## Status
+Change to yes when you are ready.
+|0.1|In development|
+|--|--|
+|First prototype ready | yes |
+|Final version ready  | no |
+
 
 
 ## Ressources
