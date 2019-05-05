@@ -4,24 +4,25 @@ Student 1: Andreas Meier
 Student 2: My-Nhien Nguyen
 
 **Short description:**
- Visualisierung von GPS-Daten über einen Zeitraum von 13 Jahren von 55 Truthangeiern in Nord- und Südamerika.
+ 
+ Visualisierung von GPS-Daten von 55 Truthangeiern in Nord- und Südamerika über einen Zeitraum von 13 Jahren.
 
 ## Technical information
 **Main file path**: index.html
 
 **Any further comments like used frameworks, etc,**
-* Leaflet-Map as background
+* Leaflet-Karte im Hintergrund
 
 ## Status
-Change to yes when you are ready.
-|0.1|In development|
+
+|Version|Status|
 |--|--|
 |First prototype ready | yes |
 |Final version ready  | no |
 
 
 
-## Ressources
+## Ressourcen
 * Eleftheria Batsou: Visualize Data | Map Data Across the Globe - D3.js - FreeCodeCamp
     * [Youtube](https://www.youtube.com/watch?v=dJbpo8R47D0)
     * [GitHub](https://github.com/EleftheriaBatsou/Map-Data-Across-the-Globe)
