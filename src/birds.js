@@ -9,7 +9,9 @@ birdSelect.onchange = event => {
 
 // create map
 const map = L.map('map')
-    .setView([40, -75], 3);
+    .setView([0, -80], 3)
+    .setMaxZoom(3)
+    .setMinZoom(3);
 
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'

@@ -13,20 +13,22 @@
 <body>
 
 <!--<h1>Migrating Birds</h1>-->
+<div id="container">
+    <div id="map"></div>
+    <div id="sliderTime"></div>
+    <button id="play">Play</button>
+    
+    <label for="bird-select">Choose a bird: </label>
+    
+    <select name="bird-select" id="bird-select">
+      <option value="allbirds">  All Birds </option>
+      <option value="disney">    Disney    </option>
+      <option value="irma">      Irma      </option>
+      <option value="leo">       Leo       </option>
+      <option value="young-luro">Young Luro</option>
+    </select>
+</div>
 
-<div id="map"></div>
-<div id="sliderTime"></div>
-<button id="play">Play</button>
-
-<label for="bird-select">Choose a bird: </label>
-
-<select name="bird-select" id="bird-select">
-  <option value="allbirds">  All Birds </option>
-  <option value="disney">    Disney    </option>
-  <option value="irma">      Irma      </option>
-  <option value="leo">       Leo       </option>
-  <option value="young-luro">Young Luro</option>
-</select>
 
 <script src="lib/d3/d3.min.js"></script>
 <script src="lib/d3-simple-slider/d3-simple-slider.min.js"></script>
@@ -36,4 +38,16 @@
 <script src="src/birds.js"></script>
 
 </body>
+
+<style>
+  #container{
+    height: 1000px;
+    width: 650px;
+    margin: 0 auto;
+  }
+  #map{
+    height: 800px;
+    width: 650px;
+  }
+</style>
 </html>
