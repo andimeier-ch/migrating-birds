@@ -9,7 +9,7 @@ birdSelect.onchange = event => {
 
 // create map
 const map = L.map('map')
-    .setView([0, -80], 3)
+    .setView([25, 30], 2.5)
     .setMaxZoom(3)
     .setMinZoom(3);
 
