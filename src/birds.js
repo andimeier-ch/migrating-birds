@@ -21,6 +21,7 @@ L.svg().addTo(map);
 
 
 function loadData(file) {
+    d3.selectAll('.bird-position').remove();
     d3.csv(`data/birds/${file}.csv`)
     .then(bird => {
         let timeSlider = initSlider(bird);
@@ -69,8 +70,6 @@ function drawSlider(bird) {
 }
 
 function drawBird(bird, currentDate) {
-    //d3.selectAll('.bird-position').remove();
-
     bird.forEach(d => {
         if(d.timestamp === currentDate){
             if(d3.select('#'+d['individual-local-identifier']).empty()){ //if bird is not shown on map yet
