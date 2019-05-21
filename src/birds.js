@@ -17,9 +17,6 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 
 L.svg().addTo(map);
 
-
-
-
 function loadData(file) {
     d3.selectAll('.bird-position').remove();
     d3.csv(`data/birds/${file}.csv`)
@@ -40,6 +37,8 @@ function initSlider(bird) {
     timeSlider.on('onchange', val => {
         let currentDate = d3.timeFormat('%Y-%m-%d')(val);
         drawBird(bird, currentDate);
+
+        d3.select('#currentDate').html(currentDate); //set date on view
     });
     return timeSlider;
 }
