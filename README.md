@@ -1,8 +1,28 @@
 # Migrating Birds
 
+* Student 1: Andreas Meier
+* Student 2: My-Nhien Nguyen
+
+**Short description:**
+ 
+ Visualisierung von GPS-Daten von 55 Truthangeiern in Nord- und Südamerika über einen Zeitraum von 13 Jahren.
+
+## Technical information
+**Main file path**: index.html
+
+**Any further comments like used frameworks, etc,**
+* Leaflet-Karte im Hintergrund
+
+## Status
+
+|Version|Status|
+|--|--|
+|First prototype ready | yes |
+|Final version ready  | no |
 
 
-## Ressources
+
+## Ressourcen
 * Eleftheria Batsou: Visualize Data | Map Data Across the Globe - D3.js - FreeCodeCamp
     * [Youtube](https://www.youtube.com/watch?v=dJbpo8R47D0)
     * [GitHub](https://github.com/EleftheriaBatsou/Map-Data-Across-the-Globe)
