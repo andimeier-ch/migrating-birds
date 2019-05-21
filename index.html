@@ -20,37 +20,41 @@
     <h1>von Kanada nach Venezuela</h1>
   </div>
   <div id="left-menu" class="menu">
-    <div class="sub-menu">
+    <div class="sub-menu picture">
       <img src="data/icons/turkeyvulture1.jpg" width="350px" height="250px"/>
     </div>
-    <div class="sub-menu">
-        <img src="data/icons/turkeyvulture2.jpg" width="350px" height="250px"/>
+    <div class="sub-menu picture">
+      <img src="data/icons/turkeyvulture2.jpg" width="350px" height="250px"/>
     </div>
-    <div class="sub-menu">
-        <img src="data/icons/turkeyvulture3.jpg" width="350px" height="250px"/>
+    <div class="sub-menu picture">
+      <img src="data/icons/turkeyvulture3.jpg" width="350px" height="250px"/>
     </div>
   </div>
-    <div id="map"></div>
-    <div id="right-menu" class="menu">
-        <div id="menu" class="sub-menu">
-            <label for="bird-select">Vogel auswählen: </label>
-            <select name="bird-select" id="bird-select">
-                <option value="allbirds">  All Birds </option>
-                <option value="disney">    Disney    </option>
-                <option value="irma">      Irma      </option>
-                <option value="leo">       Leo       </option>
-                <option value="young-luro">Young Luro</option>
-              </select>
-              <button id="play">Play</button>
-        </div>
-        <div id="dateMenu" class="sub-menu">
-          <h3>aktuelles Datum</h3>
-          <h1 id="currentDate"></h1>
-        </div>
+  <div id="map"></div>
+  <div id="right-menu" class="menu">
+    <div id="menu" class="sub-menu">
+      <label for="bird-select"><h3>Vogel auswählen:</h3></label>
+      <div class="bird-select-container">
+        <select name="bird-select" id="bird-select">
+          <option value="allbirds"> alle Vögel</option>
+          <option value="disney"> Disney</option>
+          <option value="irma"> Irma</option>
+          <option value="leo"> Leo</option>
+          <option value="young-luro">Young Luro</option>
+        </select>
+      </div>
+      <div class="play-button-container">
+        <button id="play">Play</button>
+      </div>
     </div>
+    <div id="dateMenu" class="sub-menu">
+      <h3>aktuelles Datum</h3>
+      <h1 id="currentDate"></h1>
     </div>
-    <div class="wide-item">
-        <div id="sliderTime"></div>
+  </div>
+</div>
+<div class="wide-item">
+  <div id="sliderTime"></div>
 </div>
 
 

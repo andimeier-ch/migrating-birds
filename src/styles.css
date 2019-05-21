@@ -30,13 +30,20 @@ img{
   border: 1px solid #776951;
   height: 250px;
   width: 100%;
+  padding: 16px;
   margin-bottom: 5px;
   display: inline-block;
+  text-align: center;
+}
+
+.sub-menu.picture {
+  padding: 0;
+  text-align: left;
 }
 
 .menu{
   width: 350px;
-  padding: 0 20px; 
+  padding: 0 20px;
 }
 
 .wide-item{
@@ -51,6 +58,48 @@ img{
 }
 
 #dateMenu{
-  text-align: center;
-  height: 120px;
+  height: 140px;
+}
+
+.play-button-container {
+  margin-top: 64px;
+}
+
+#bird-select, #play {
+  -webkit-appearance: none;
+  font-size: 16px;
+  background-color: transparent;
+  border: 1px solid #776951;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#play {
+  width: 90px;
+  padding: 16px;
+  background-color: #fff;
+}
+
+.bird-select-container {
+  position: relative;
+  display: inline-block;
+  background-color: #fff;
+}
+
+.bird-select-container:after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-left: 1px solid #776951;
+  border-bottom: 1px solid #776951;
+  transform: rotate(-45deg);
+}
+
+#bird-select {
+  padding: 4px 16px 4px 4px;
+  background-color: transparent;
 }

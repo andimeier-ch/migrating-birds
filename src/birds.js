@@ -42,7 +42,7 @@ function initSlider(bird) {
         let currentDate = d3.timeFormat('%Y-%m-%d')(val);
         drawBird(bird, currentDate);
         birdplayer.setSliderPosition(val);
-        d3.select('#currentDate').html(currentDate); //set date on view
+        d3.select('#currentDate').html(d3.timeFormat('%m. %Y')(val)); //set date on view
     });
     return timeSlider;
 }
