@@ -97,7 +97,7 @@ function drawBird(bird, currentDate) {
                 .attr('cy', getPosition(d).y);
             }
 
-            if(d['last-timestamp-flag'] === "true"){
+            if(d['last-timestamp-flag'] === "true"){                    //remove bird once last timestamp was reached
                 d3.select('#'+d['individual-local-identifier']).remove();
             }
         }
@@ -139,6 +139,7 @@ function BirdPlayer(button, bird, timeSlider) {
         sliderPosition.setDate(sliderPosition.getDate() + 1);
 
         if (isPlaying && sliderPosition <= timeSlider.max()) {
+            //setTimeout(() => requestAnimationFrame(play), 100);
             requestAnimationFrame(play);
         }
     };
