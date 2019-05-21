@@ -17,11 +17,10 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 
 L.svg().addTo(map);
 
-
 let birdplayer;
 
-
 function loadData(file) {
+    d3.selectAll('.bird-position').remove();
     d3.csv(`data/birds/${file}.csv`)
     .then(bird => {
         let timeSlider = initSlider(bird);
@@ -43,6 +42,7 @@ function initSlider(bird) {
         let currentDate = d3.timeFormat('%Y-%m-%d')(val);
         drawBird(bird, currentDate);
         birdplayer.setSliderPosition(val);
+        d3.select('#currentDate').html(currentDate); //set date on view
     });
     return timeSlider;
 }
@@ -73,8 +73,6 @@ function drawSlider(bird) {
 }
 
 function drawBird(bird, currentDate) {
-    d3.selectAll('.bird-position').remove();
-
     bird.forEach(d => {
         if(d.timestamp === currentDate){
             if(d3.select('#'+d['individual-local-identifier']).empty()){ //if bird is not shown on map yet
