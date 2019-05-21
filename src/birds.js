@@ -24,6 +24,8 @@ function loadData(file) {
     d3.csv(`data/birds/${file}.csv`)
     .then(bird => {
         let timeSlider = initSlider(bird);
+        let currentDate = d3.timeFormat('%Y-%m-%d')(timeSlider.value());
+        drawBird(bird, currentDate);
 
         const playButton = document.querySelector('#play');
         BirdPlayer(playButton, bird, timeSlider);
@@ -69,7 +71,7 @@ function drawSlider(bird) {
 }
 
 function drawBird(bird, currentDate) {
-    //d3.selectAll('.bird-position').remove();
+    d3.selectAll('.bird-position').remove();
 
     bird.forEach(d => {
         if(d.timestamp === currentDate){
@@ -88,7 +90,7 @@ function drawBird(bird, currentDate) {
                 const transition = d3.transition()
                 .duration(100)
                 .ease(d3.easeLinear);
-    
+
                 d3.select('#'+d['individual-local-identifier'])
                 .transition(transition)
                 .attr('cx', getPosition(d).x)
@@ -96,7 +98,7 @@ function drawBird(bird, currentDate) {
             }
         }
     })
-    
+
 }
 
 
