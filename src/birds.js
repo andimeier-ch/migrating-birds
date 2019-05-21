@@ -83,8 +83,8 @@ function drawBird(bird, currentDate) {
                 .attr('class', 'bird-position')
                 .attr('cx', getPosition(d).x)
                 .attr('cy', getPosition(d).y)
-                .attr('r', 3)
-                .style('fill', 'red');
+                .attr('r', 5)
+                .style('fill', 'white');
             }
             else {                                                      //otherwise just move the existing circle
                 const transition = d3.transition()
