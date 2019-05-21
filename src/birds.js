@@ -18,6 +18,7 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 L.svg().addTo(map);
 
 
+let birdplayer;
 
 
 function loadData(file) {
@@ -28,7 +29,7 @@ function loadData(file) {
         drawBird(bird, currentDate);
 
         const playButton = document.querySelector('#play');
-        BirdPlayer(playButton, bird, timeSlider);
+        birdplayer = BirdPlayer(playButton, bird, timeSlider);
 
         map.on('moveend', update);
     });
@@ -41,6 +42,7 @@ function initSlider(bird) {
     timeSlider.on('onchange', val => {
         let currentDate = d3.timeFormat('%Y-%m-%d')(val);
         drawBird(bird, currentDate);
+        birdplayer.setSliderPosition(val);
     });
     return timeSlider;
 }
@@ -115,7 +117,7 @@ function getPosition(d) {
 
 function BirdPlayer(button, bird, timeSlider) {
     let isPlaying = false;
-    let animationStart = null;
+    let sliderPosition = timeSlider.value();
 
     button.onclick = () => togglePlay();
 
@@ -131,16 +133,16 @@ function BirdPlayer(button, bird, timeSlider) {
     };
 
     const play = (timestamp) => {
-        if (!animationStart) {
-            animationStart = timestamp;
-        }
+        timeSlider.value(sliderPosition);
+        sliderPosition.setDate(sliderPosition.getDate() + 1);
 
-        let progress = timestamp - animationStart;
-        let i = Math.round(progress / 10);
-        timeSlider.value(new Date(bird[i].timestamp));
-
-        if (i < bird.length - 1 && isPlaying) {
+        if (isPlaying && sliderPosition <= timeSlider.max()) {
+            // setTimeout(() => requestAnimationFrame(play), 50);
             requestAnimationFrame(play);
         }
+    };
+
+    return {
+        setSliderPosition: pos => sliderPosition = pos
     };
 }
