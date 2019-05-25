@@ -23,6 +23,7 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 //set up mapPane for birds
 map.createPane('birds') //create custom pane for birds
 map.getPane('birds').style.zIndex = 650; //put pane on top of sightings-map
+map.getPane('birds').style.pointerEvents = 'none';
 const birdSvg = d3.select('.leaflet-birds-pane')
     .append('svg')
     .attr('width', 650)
@@ -32,6 +33,8 @@ const birdSvg = d3.select('.leaflet-birds-pane')
 var myGeoJSONPath = 'data/maps/americas.geo.json';
 var myCustomStyle = {
     stroke: true,
+    color: 'black',
+    weight: 0.5,
     fill: true,
     fillColor: '#fff',
     fillOpacity: 0.3
