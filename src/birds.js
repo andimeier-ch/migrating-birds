@@ -16,6 +16,7 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 }).addTo(map);
 
 L.svg().addTo(map);
+const svg = d3.select(map.getPanes().overlayPane).append("svg"); //append svg to overlayPane of map
 
 let birdplayer;
 
