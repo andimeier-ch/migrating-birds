@@ -6,6 +6,11 @@ birdSelect.onchange = event => {
     loadData(birdSelect.value)
 };
 
+function toggleSightingsMap(){
+    const sightingsCheckbox = document.querySelector('#sightings');
+    const sightingsMap = document.querySelector('.leaflet-overlay-pane');
+    sightingsCheckbox.checked ? sightingsMap.style.display = 'block' : sightingsMap.style.display = 'none';
+}
 
 // create map
 const map = L.map('map')
@@ -23,6 +28,7 @@ const birdSvg = d3.select('.leaflet-birds-pane')
     .attr('width', 650)
     .attr('height', 900);
 
+//create GeoJSON-Layer for sightings-map
 var myGeoJSONPath = 'data/maps/americas.geo.json';
 var myCustomStyle = {
     stroke: true,
