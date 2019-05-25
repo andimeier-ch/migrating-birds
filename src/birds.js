@@ -15,8 +15,31 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 }).addTo(map);
 
-L.svg().addTo(map);
-const svg = d3.select(map.getPanes().overlayPane).append("svg"); //append svg to overlayPane of map
+//set up mapPane for birds
+map.createPane('birds') //create custom pane for birds
+map.getPane('birds').style.zIndex = 650; //put pane on top of sightings-map
+const birdSvg = d3.select('.leaflet-birds-pane')
+    .append('svg')
+    .attr('width', 650)
+    .attr('height', 900);
+
+var myGeoJSONPath = 'data/maps/americas.geo.json';
+var myCustomStyle = {
+    stroke: true,
+    fill: true,
+    fillColor: '#fff',
+    fillOpacity: 0.3
+}
+
+d3.json(myGeoJSONPath)
+    .then(function(data){
+    L.geoJSON(data.features, {
+        clickable: false,
+        style: myCustomStyle
+    }).addTo(map);
+});
+
+
 
 let birdplayer;
 
@@ -76,7 +99,7 @@ function drawBird(bird, currentDate) {
     bird.forEach(d => {
         if(d.timestamp === currentDate){
             if(d3.select('#'+d['individual-local-identifier']).empty()){ //if bird is not shown on map yet
-                d3.select('#map svg')                                    //create a new circle
+                birdSvg                                                  //create a new circle
                 .datum(d)
                 .append('circle')
                 .attr('id', d['individual-local-identifier'])
