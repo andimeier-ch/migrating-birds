@@ -37,13 +37,12 @@ function loadData(file) {
 
 function initSlider(bird) {
     let timeSlider = drawSlider(bird);
-    let currentDate = d3.timeFormat('%Y-%m-%d')(timeSlider.value());
 
     timeSlider.on('onchange', val => {
         let currentDate = d3.timeFormat('%Y-%m-%d')(val);
         drawBird(bird, currentDate);
         birdplayer.setSliderPosition(val);
-        d3.select('#currentDate').html(d3.timeFormat('%m. %Y')(val)); //set date on view
+        d3.select('#currentDate').html(d3.timeFormat('%b, %Y')(val)); //set date on view
     });
     return timeSlider;
 }
