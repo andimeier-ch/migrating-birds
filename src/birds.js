@@ -32,7 +32,7 @@ var myCustomStyle = {
     stroke: true,
     color: 'black',
     weight: 0.5,
-    //fill: true,
+    fill: true,
     fillColor: 'transparent',
     fillOpacity: 0.8
 }
@@ -53,9 +53,26 @@ d3.json(myGeoJSONPath)
 
 const countries = d3.select('.leaflet-overlay-pane').selectAll('path');
 
-var sigthingsColorScale = d3.scaleOrdinal()
-  .domain([0,50000])
-  .range(d3.schemePurples[8]);
+const sigthingsColorScale = d3.scaleOrdinal(d3.schemePurples[9]);
+
+//create color-legend for sightings. Taken from https://leafletjs.com/examples/choropleth/
+var legend = L.control({position: 'bottomleft'});
+legend.onAdd = function (map) {
+  
+      var div = L.DomUtil.create('div', 'info legend'),
+          grades = [0, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000],
+          labels = ["0-5k","5-10k","10-15k","15-20k","20-25k","25-30k","30-35k","35-40k","40k+"];
+
+      for (var i = 0; i < grades.length; i++) {
+          div.innerHTML +=
+              '<i style="background:' + sigthingsColorScale(grades[i]) + '; border: 0.2px solid black"></i> ' +
+              labels[i] + '<br>';
+      }
+  
+      return div;
+  };
+  
+  legend.addTo(map);  
 
 let birdplayer;
 
