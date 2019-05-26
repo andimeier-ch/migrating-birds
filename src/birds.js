@@ -37,11 +37,13 @@ var myCustomStyle = {
     fillOpacity: 0.8
 }
 
+let geojson;
 d3.json(myGeoJSONPath)
     .then(function(data){
-        L.geoJSON(data.features, {
-            clickable: false, //TODO: add interactivity
-            style: myCustomStyle
+        geojson = L.geoJSON(data.features, {
+            clickable: false,
+            style: myCustomStyle,
+            onEachFeature: onEachFeature
     }).addTo(map);
     return data;
     })
@@ -51,30 +53,34 @@ d3.json(myGeoJSONPath)
         .data(data.features)
 })
 
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightCountry,
+        mouseout: resetHighlight,
+    });
+}
+
 const countries = d3.select('.leaflet-overlay-pane').selectAll('path');
 
-const sigthingsColorScale = d3.scaleOrdinal(d3.schemePurples[9]);
+const sigthingsColorScale = d3.scaleSequential(d3.interpolateBrBG).domain([200,-150]);
 
 //create color-legend for sightings. Taken from https://leafletjs.com/examples/choropleth/
 var legend = L.control({position: 'bottomleft'});
 legend.onAdd = function (map) {
-  
       var div = L.DomUtil.create('div', 'info legend'),
-          grades = [0, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000],
-          labels = ["0-5k","5-10k","10-15k","15-20k","20-25k","25-30k","30-35k","35-40k","40k+"];
+          grades = [-100, -50, 0, 50, 100, 150, 200],
+          labels = ["-100%","-50%","0","+50%","+100%","+150%", "+200%"];
 
       for (var i = 0; i < grades.length; i++) {
           div.innerHTML +=
               '<i style="background:' + sigthingsColorScale(grades[i]) + '; border: 0.2px solid black"></i> ' +
               labels[i] + '<br>';
       }
-  
       return div;
   };
-  
   legend.addTo(map);  
 
-  
+
 let birdplayer;
 
 function loadData(file) {
@@ -91,38 +97,60 @@ function loadData(file) {
         map.on('moveend', update);
     });
 }
+let externalCurrentDate;
 
 function initSlider(bird) {
     let timeSlider = drawSlider(bird);
 
     timeSlider.on('onchange', val => {
-        let currentDate = d3.timeFormat('%Y-%m-%d')(val);
+        currentDate = d3.timeFormat('%Y-%m-%d')(val);
+        externalCurrentDate = d3.timeFormat('%Y-%m')(val);
         drawBird(bird, currentDate);
         birdplayer.setSliderPosition(val);
         d3.select('#currentDate').html(d3.timeFormat('%b, %Y')(val)); //set date on view
-        updateSightingsMap(d3.timeFormat('%Y-%m')(val)); 
+            updateSightingsMap(d3.timeFormat('%Y-%m')(val)); 
     });
     return timeSlider;
 }
+
+let sightingsDataArray = new Array();
 
 function updateSightingsMap(currentDate){
     d3.csv('data/sightings/sightings_alldata.csv')
         .then(function(sightingsData){
             sightingsData.forEach(r => {
                 if(r['indicator'] == currentDate){
-                    const transition = d3.transition() //TODO: general purpose transition
+                    const transition = d3.transition()
                             .duration(100)
                             .ease(d3.easeLinear);
-                    
-                    d3.select('.leaflet-overlay-pane').selectAll("path")
+            
+                    let country = d3.select('.leaflet-overlay-pane').selectAll("path")
                         .filter(function(d) {
                             return d.properties['iso_a2'] === r['country']
-                            ;})
+                            ;});
+                    if(sightingsDataArray[r['country']] === undefined) {sightingsDataArray[r['country']] = 0; return ;}
+                    if(sightingsDataArray[r['country']] === r['sum']){return ;}
+                    country
                         .transition(transition)
-                        .attr("fill", d => sigthingsColorScale(r['sum']));
+                        .attr("fill", d => {
+                            return sigthingsColorScale((r['sum'] - sightingsDataArray[r['country']]) / sightingsDataArray[r['country']] * 100);
+                        });
+                        sightingsDataArray[r['country']] = r['sum'];
                 }
             })
         })
+}
+
+function highlightCountry(e){
+    let countryname = e.target.feature.properties['name'];
+    let countryAbbr = e.target.feature.properties['iso_a2'];
+
+    d3.select('#countryname').html(countryname);
+    d3.select('#sightings-number').html(sightingsDataArray[countryAbbr]);
+}
+
+function resetHighlight(e) {
+
 }
 
 function drawSlider(bird) {
@@ -216,8 +244,8 @@ function BirdPlayer(button, bird, timeSlider) {
         sliderPosition.setDate(sliderPosition.getDate() + 1);
 
         if (isPlaying && sliderPosition <= timeSlider.max()) {
-            setTimeout(() => requestAnimationFrame(play), 100); //TODO: make speed adjustable
-            //requestAnimationFrame(play);
+        //    setTimeout(() => requestAnimationFrame(play), 200); //TODO: make speed adjustable
+           requestAnimationFrame(play);
         }
     };
 
