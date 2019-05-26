@@ -111,6 +111,12 @@ img{
   background: rgba(255,255,255,0.8);
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   border-radius: 5px;
+  width: 100px;
+}
+
+.info p {
+  line-height: 15px;
+  margin: 2px 2px;
 }
 .info h4 {
   margin: 0 0 5px;
@@ -118,7 +124,7 @@ img{
 }
 
 .legend {
-  line-height: 20px;
+  line-height: 19px;
   color: #555;
   margin-bottom: 40px !important
 }

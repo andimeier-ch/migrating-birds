@@ -70,7 +70,7 @@ legend.onAdd = function (map) {
       var div = L.DomUtil.create('div', 'info legend'),
           grades = [-100, -50, 0, 50, 100, 150, 200],
           labels = ["-100%","-50%","0","+50%","+100%","+150%", "+200%"];
-
+          div.innerHTML += '<p>Sichtungen im Vergleich zum Vormonat</p><br>'
       for (var i = 0; i < grades.length; i++) {
           div.innerHTML +=
               '<i style="background:' + sigthingsColorScale(grades[i]) + '; border: 0.2px solid black"></i> ' +
@@ -146,11 +146,12 @@ function highlightCountry(e){
     let countryAbbr = e.target.feature.properties['iso_a2'];
 
     d3.select('#countryname').html(countryname);
-    d3.select('#sightings-number').html(sightingsDataArray[countryAbbr]);
+    d3.select('#sightings-number').html(Math.trunc(sightingsDataArray[countryAbbr]));
 }
 
 function resetHighlight(e) {
-
+    d3.select('#countryname').html("");
+    d3.select('#sightings-number').html("");
 }
 
 function drawSlider(bird) {
