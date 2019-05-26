@@ -24,10 +24,7 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 map.createPane('birds') //create custom pane for birds
 map.getPane('birds').style.zIndex = 650; //put pane on top of sightings-map
 map.getPane('birds').style.pointerEvents = 'none';
-const birdSvg = d3.select('.leaflet-birds-pane')
-    .append('svg')
-    .attr('width', 650)
-    .attr('height', 900);
+L.svg({pane: 'birds'}).addTo(map);
 
 //create GeoJSON-Layer for sightings-map
 var myGeoJSONPath = 'data/maps/americas.geo.json';
@@ -108,7 +105,7 @@ function drawBird(bird, currentDate) {
     bird.forEach(d => {
         if(d.timestamp === currentDate){
             if(d3.select('#'+d['individual-local-identifier']).empty()){ //if bird is not shown on map yet
-                birdSvg                                                  //create a new circle
+                d3.select('.leaflet-birds-pane svg')                     //create a new circle
                 .datum(d)
                 .append('circle')
                 .attr('id', d['individual-local-identifier'])
