@@ -74,6 +74,7 @@ legend.onAdd = function (map) {
   
   legend.addTo(map);  
 
+  
 let birdplayer;
 
 function loadData(file) {
