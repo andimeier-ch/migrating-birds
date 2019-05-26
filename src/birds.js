@@ -32,20 +32,30 @@ var myCustomStyle = {
     stroke: true,
     color: 'black',
     weight: 0.5,
-    fill: true,
-    fillColor: '#fff',
-    fillOpacity: 0.3
+    //fill: true,
+    fillColor: 'transparent',
+    fillOpacity: 0.8
 }
 
 d3.json(myGeoJSONPath)
     .then(function(data){
-    L.geoJSON(data.features, {
-        clickable: false,
-        style: myCustomStyle
+        L.geoJSON(data.features, {
+            clickable: false, //TODO: add interactivity
+            style: myCustomStyle
     }).addTo(map);
-});
+    return data;
+    })
+    .then(function(data){
+        d3.select('.leaflet-overlay-pane')
+        .selectAll('path')
+        .data(data.features)
+})
 
+const countries = d3.select('.leaflet-overlay-pane').selectAll('path');
 
+var sigthingsColorScale = d3.scaleOrdinal()
+  .domain([0,50000])
+  .range(d3.schemePurples[8]);
 
 let birdplayer;
 
@@ -72,8 +82,29 @@ function initSlider(bird) {
         drawBird(bird, currentDate);
         birdplayer.setSliderPosition(val);
         d3.select('#currentDate').html(d3.timeFormat('%b, %Y')(val)); //set date on view
+        updateSightingsMap(d3.timeFormat('%Y-%m')(val)); 
     });
     return timeSlider;
+}
+
+function updateSightingsMap(currentDate){
+    d3.csv('data/sightings/sightings_alldata.csv')
+        .then(function(sightingsData){
+            sightingsData.forEach(r => {
+                if(r['indicator'] == currentDate){
+                    const transition = d3.transition() //TODO: general purpose transition
+                            .duration(100)
+                            .ease(d3.easeLinear);
+                    
+                    d3.select('.leaflet-overlay-pane').selectAll("path")
+                        .filter(function(d) {
+                            return d.properties['iso_a2'] === r['country']
+                            ;})
+                        .transition(transition)
+                        .attr("fill", d => sigthingsColorScale(r['sum']));
+                }
+            })
+        })
 }
 
 function drawSlider(bird) {
@@ -125,7 +156,6 @@ function drawBird(bird, currentDate) {
                 .attr('cx', getPosition(d).x)
                 .attr('cy', getPosition(d).y);
             }
-
             if(d['last-timestamp-flag'] === "true"){                    //remove bird once last timestamp was reached
                 d3.select('#'+d['individual-local-identifier']).remove();
             }
@@ -168,8 +198,8 @@ function BirdPlayer(button, bird, timeSlider) {
         sliderPosition.setDate(sliderPosition.getDate() + 1);
 
         if (isPlaying && sliderPosition <= timeSlider.max()) {
-            //setTimeout(() => requestAnimationFrame(play), 100);
-            requestAnimationFrame(play);
+            setTimeout(() => requestAnimationFrame(play), 100); //TODO: make speed adjustable
+            //requestAnimationFrame(play);
         }
     };
 
