@@ -5,6 +5,7 @@ const birdSelect = document.querySelector('#bird-select');
 loadData(birdSelect.value);
 setupBirdSelectListener(birdSelect); //reload data according to selected bird
 
+//load birdDate according to file-name
 function loadData(file) {
     d3.selectAll('.bird-position').remove();
     d3.csv(`data/birds/${file}.csv`)
@@ -20,8 +21,10 @@ function loadData(file) {
     });
 }
 
+//currentDate in format YYYY-MM, used for sightings
 let sightingsCurrentDate;
 
+//create and setup time-slider
 function initSlider(bird) {
     let timeSlider = drawSlider(bird);
 
@@ -37,6 +40,7 @@ function initSlider(bird) {
     return timeSlider;
 }
 
+//create slider for selected birdData
 function drawSlider(bird) {
     d3.selectAll('#sliderTime svg').remove();
 
@@ -62,6 +66,7 @@ function drawSlider(bird) {
     return timeSlider;
 }
 
+//draw bird according to currentDate
 function drawBird(bird, currentDate) {
     bird.forEach(d => {
         if(d.timestamp === currentDate){
@@ -94,6 +99,7 @@ function drawBird(bird, currentDate) {
 
 }
 
+// Play-Pause-Logic for animation
 function BirdPlayer(button, bird, timeSlider) {
     let isPlaying = false;
     let sliderPosition = timeSlider.value();
@@ -163,7 +169,7 @@ function setupGeoJson(){
         geojson = L.geoJSON(data.features, {
             clickable: false,
             style: geoJsonStyle,
-            onEachFeature: onEachFeature
+            onEachFeature: onEachFeature //assign interaction to each feature
     }).addTo(map);
     return data;
     })
@@ -172,13 +178,6 @@ function setupGeoJson(){
         .selectAll('path')
         .data(data.features)
 })
-}
-
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightCountry,
-        mouseout: resetHighlight,
-    });
 }
 
 //create color-legend for sightings. Taken from https://leafletjs.com/examples/choropleth/
@@ -236,7 +235,7 @@ function highlightCountry(e){
     d3.select('#countryname').html(countryname);
     d3.select('#sightings-number').html(Math.trunc(sightingsDataArray[countryAbbr]));
 
-    //TODO: country-borders
+    //TODO: highlight country-borders
 }
 
 function resetHighlight(e) {
@@ -244,6 +243,12 @@ function resetHighlight(e) {
     d3.select('#sightings-number').html("");
 }
 
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightCountry,
+        mouseout: resetHighlight,
+    });
+}
 
 function update() {
     d3.selectAll('.bird-position')
