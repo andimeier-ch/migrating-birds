@@ -28,6 +28,7 @@
     * [GitHub](https://github.com/EleftheriaBatsou/Map-Data-Across-the-Globe)
 * [Time Slider](https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518)
 * [Using Leaflet with D*](https://www.d3-graph-gallery.com/graph/bubblemap_leaflet_basic.html)
+* Fotos: [allaboutbirds.org](https://www.allaboutbirds.org/guide/Turkey_Vulture/id)
 
 ## Data Sources
 * [world-50m.v1.json](https://d3js.org/world-50m.v1.json)

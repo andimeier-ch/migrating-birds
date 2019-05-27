@@ -122,8 +122,8 @@ function BirdPlayer(button, bird, timeSlider) {
         sliderPosition.setDate(sliderPosition.getDate() + 1);
 
         if (isPlaying && sliderPosition <= timeSlider.max()) {
-           setTimeout(() => requestAnimationFrame(play), 200); //TODO: make speed adjustable
-        //    requestAnimationFrame(play);
+           //setTimeout(() => requestAnimationFrame(play), 200); //TODO: make speed adjustable
+           requestAnimationFrame(play);
         }
     };
 
@@ -134,7 +134,7 @@ function BirdPlayer(button, bird, timeSlider) {
 
 
 // create base-map
-const map = L.map('map').setView([5, -80], 2.5);
+const map = L.map('map').setView([47.5,10], 17).flyTo([5, -80], 2.5);
 
 // create satellite-map-layer
 const satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
