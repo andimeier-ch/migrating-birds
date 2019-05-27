@@ -99,6 +99,11 @@ function drawBird(bird, currentDate) {
 
 }
 
+let speed = 100;
+function changeSpeed(val){
+    speed = val;
+}
+
 // Play-Pause-Logic for animation
 function BirdPlayer(button, bird, timeSlider) {
     let isPlaying = false;
@@ -122,8 +127,8 @@ function BirdPlayer(button, bird, timeSlider) {
         sliderPosition.setDate(sliderPosition.getDate() + 1);
 
         if (isPlaying && sliderPosition <= timeSlider.max()) {
-           //setTimeout(() => requestAnimationFrame(play), 200); //TODO: make speed adjustable
-           requestAnimationFrame(play);
+           setTimeout(() => requestAnimationFrame(play), speed); //TODO: make speed adjustable
+        //    requestAnimationFrame(play);
         }
     };
 

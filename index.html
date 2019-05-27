@@ -66,6 +66,14 @@
           <input id="sightings" type="checkbox" onclick="toggleSightingsMap()" checked>Vogelsichtungen
         </div>
       </div>
+      <div class="speed-select-container">
+        <h3>Geschwindigkeit auswählen:</h3>
+        <div class="speed-selector">
+          <input type="radio" name="speed" onclick="changeSpeed(200)">langsam
+          <input type="radio" name="speed" onclick="changeSpeed(100)" checked>mittel
+          <input type="radio" name="speed" onclick="changeSpeed(0)">schnell
+        </div>
+      </div>
       <div class="play-button-container">
         <button id="play">Play</button>
       </div>
