@@ -43,6 +43,12 @@
           <option value="young-luro">Young Luro</option>
         </select>
       </div>
+      <div class="map-select-container">
+        <h3>Karten auswählen:</h3>
+        <div class="map-selector">
+          <input id="sightings" type="checkbox" onclick="toggleSightingsMap()" checked>Vogelsichtungen
+        </div>
+      </div>
       <div class="play-button-container">
         <button id="play">Play</button>
       </div>
@@ -50,6 +56,11 @@
     <div id="dateMenu" class="sub-menu">
       <h3>aktuelles Datum</h3>
       <h1 id="currentDate"></h1>
+    </div>
+    <div id="sightingsMenu" class="sub-menu">
+      <h3>Anzahl Sichtungen in</h3>
+      <h2 id="countryname"></h2>
+      <h1 id="sightings-number"></h1>
     </div>
   </div>
 </div>
