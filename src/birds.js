@@ -127,8 +127,7 @@ function BirdPlayer(button, bird, timeSlider) {
         sliderPosition.setDate(sliderPosition.getDate() + 1);
 
         if (isPlaying && sliderPosition <= timeSlider.max()) {
-           setTimeout(() => requestAnimationFrame(play), speed); //TODO: make speed adjustable
-        //    requestAnimationFrame(play);
+           setTimeout(() => requestAnimationFrame(play), speed);
         }
     };
 
@@ -209,43 +208,78 @@ let sightingsDataArray = new Array();
 function updateSightingsMap(currentDate){
     d3.csv('data/sightings/sightings_alldata.csv')
         .then(function(sightingsData){
-            sightingsData.forEach(r => {
-                if(r['indicator'] == currentDate){
+            sightingsData.forEach(s => {
+                if(s['indicator'] == currentDate){
                     const transition = d3.transition()
                             .duration(100)
                             .ease(d3.easeLinear);
             
                     let country = d3.select('.leaflet-overlay-pane').selectAll("path")
                         .filter(function(d) {
-                            return d.properties['iso_a2'] === r['country']
+                            return d.properties['iso_a2'] === s['country']
                             ;});
-                    if(sightingsDataArray[r['country']] === undefined) {sightingsDataArray[r['country']] = 0; return ;} //if no previous value exists, initiate with 0
-                    if(sightingsDataArray[r['country']] === r['sum']){return ;} //if no change can be detected, exit function
+                    if(sightingsDataArray[s['country']] === undefined) {sightingsDataArray[s['country']] = 0; return ;} //if no previous value exists, initiate with 0
+                    if(sightingsDataArray[s['country']] === s['sum']){return ;} //if no change can be detected, exit function
 
                     country.transition(transition)
                         .attr("fill", d => {
-                            return sigthingsColorScale((r['sum'] - sightingsDataArray[r['country']]) / sightingsDataArray[r['country']] * 100); //calculate change in %
+                            return sigthingsColorScale((s['sum'] - sightingsDataArray[s['country']]) / sightingsDataArray[s['country']] * 100); //calculate change in %
                         });
 
-                    sightingsDataArray[r['country']] = r['sum']; //save new value
+                    sightingsDataArray[s['country']] = s['sum']; //save new value
+
+                    //update number if country is being highlighted
+                    if(highlightedCountry === s['country']){
+                        updateSightingsNumber(s['sum']);
+                    }
                 }
             })
         })
 }
 
+let highlightedCountry;
+
 function highlightCountry(e){
     let countryname = e.target.feature.properties['name'];
     let countryAbbr = e.target.feature.properties['iso_a2'];
 
-    d3.select('#countryname').html(countryname);
-    d3.select('#sightings-number').html(Math.trunc(sightingsDataArray[countryAbbr]));
+    highlightedCountry = countryAbbr;
 
-    //TODO: highlight country-borders
+    d3.select('#countryname').html(countryname);
+    updateSightingsNumber(sightingsDataArray[countryAbbr]);
+
+    //highlight country-borders
+    var layer = e.target;
+    layer.setStyle({
+        weight: 3,
+        fill: true,
+        fillColor: getColorOf(countryAbbr)
+    });
+
+}
+
+function updateSightingsNumber(number){
+    d3.select('#sightings-number').html(Math.trunc(number));
+}
+
+function getColorOf(country){
+    return d3.select('.leaflet-overlay-pane').selectAll("path")
+                     .filter(p => p.properties['iso_a2'] === country).style('fill')
 }
 
 function resetHighlight(e) {
     d3.select('#countryname').html("");
     d3.select('#sightings-number').html("");
+
+    let countryAbbr = e.target.feature.properties['iso_a2'];
+
+    //unhighlight borders
+    let layer = e.target;
+    layer.setStyle({
+        weight: 1,
+        fill: true,
+        fillColor: getColorOf(countryAbbr)
+    });
 }
 
 function onEachFeature(feature, layer) {
