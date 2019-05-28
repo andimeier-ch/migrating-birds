@@ -28,12 +28,11 @@
     * [GitHub](https://github.com/EleftheriaBatsou/Map-Data-Across-the-Globe)
 * [Time Slider](https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518)
 * [Using Leaflet with D*](https://www.d3-graph-gallery.com/graph/bubblemap_leaflet_basic.html)
+* [Leaflet Interactive Chloropleth Map](https://leafletjs.com/examples/choropleth/)
 * Fotos: [allaboutbirds.org](https://www.allaboutbirds.org/guide/Turkey_Vulture/id)
+* Info-Texte: [wikipedia.org](https://de.wikipedia.org/wiki/Truthahngeier)
 
 ## Data Sources
-* [world-50m.v1.json](https://d3js.org/world-50m.v1.json)
-* [americas.json](https://github.com/opennetworkinglab/onos/blob/master/web/gui/src/main/webapp/data/map/americas.topojson)
-* [TopoJSON Collection](https://bl.ocks.org/FrissAnalytics/a5b18dc15b73f34f92c7448cbb62c38e)
-    * [north-america.json](https://github.com/deldersveld/topojson/blob/master/continents/north-america.json)
-    * [south-america.json](https://github.com/deldersveld/topojson/blob/master/continents/south-america.json)
-
+* GPS-Tracking Daten: [Movebank Data Repository](https://www.datarepository.movebank.org/handle/10255/move.607)
+* Sichtungs-Daten: [gbif.org](https://www.gbif.org/species/2481930)
+* GeoJSON americas: [geojson-maps](https://geojson-maps.ash.ms/)
