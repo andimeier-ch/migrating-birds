@@ -5,7 +5,7 @@
 
 **Short description:**
  
- Visualisierung von GPS-Daten von 55 Truthangeiern in Nord- und Südamerika über einen Zeitraum von 13 Jahren.
+ Visualisierung von GPS-Daten von 55 Truthangeiern sowie Sichtungszahlen dieser Vogelart in Nord- und Südamerika über einen Zeitraum von 13 Jahren.
 
 ## Technical information
 **Main file path**: index.html
@@ -18,7 +18,7 @@
 |Version|Status|
 |--|--|
 |First prototype ready | yes |
-|Final version ready  | no |
+|Final version ready  | yes |
 
 
 
