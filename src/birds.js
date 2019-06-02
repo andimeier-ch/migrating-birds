@@ -280,6 +280,8 @@ function resetHighlight(e) {
         fill: true,
         fillColor: getColorOf(countryAbbr)
     });
+
+    highlightedCountry = null;
 }
 
 function onEachFeature(feature, layer) {
